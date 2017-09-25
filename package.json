@@ -25,6 +25,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
+    "postinstall": "npm run build",
     "format": "prettier-eslint --write '{app-*,c-*,root}/src/**/*.{js,css}' '{app-*,c-*,root}/*.{js,css}'",
     "root": "cd root && npm run"
   },
