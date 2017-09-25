@@ -1,0 +1,7 @@
+{
+  "extends": "dgeibi/react",
+  "rules": {
+    "import/no-extraneous-dependencies": "off",
+    "no-mixed-operators": "off"
+  }
+}
