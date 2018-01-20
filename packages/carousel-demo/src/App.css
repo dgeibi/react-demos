@@ -1,0 +1,16 @@
+.slice {
+  line-height: 100px;
+  text-align: center;
+  background: rgb(65, 38, 214);
+  color: aliceblue;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}

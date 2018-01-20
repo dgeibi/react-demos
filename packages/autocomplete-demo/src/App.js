@@ -1,5 +1,6 @@
 import React from 'react'
-import Autocomplete from 'c-autocomplete'
+import Autocomplete from '@dgeibi/autocomplete'
+import '@dgeibi/autocomplete/dist/@dgeibi/autocomplete.css'
 
 function App() {
   return (

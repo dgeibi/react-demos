@@ -1,0 +1,24 @@
+{
+  "name": "autocomplete-demo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "poi",
+    "build": "poi build",
+    "test": "tyu"
+  },
+  "author": "dgeibi",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-preset-react-app": "^3.1.0",
+    "poi": "^9.6.12",
+    "poi-preset-react": "^9.2.1",
+    "@dgeibi/poi-preset-react": "^1.0.0",
+    "tyu": "^1.0.5"
+  },
+  "dependencies": {
+    "react":"^15.6.1",
+    "react-dom":"^15.6.1",
+    "@dgeibi/autocomplete": "^1.0.0"
+  }
+}
