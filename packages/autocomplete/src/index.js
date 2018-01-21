@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import escapeStringRegexp from 'escape-string-regexp'
 import './Autocomplete.css'
 
 class Autocomplete extends Component {
@@ -22,16 +23,16 @@ class Autocomplete extends Component {
     return this.state.shouldShow && this.ul && this.ul.childNodes.length > 0
   }
 
-  handleInput = (e) => {
+  handleInput = e => {
     this.setValue(e.target.value, true)
   }
 
-  handleClick = (e) => {
+  handleClick = e => {
     if (!e.target.matches('li')) return
     this.setValue(e.target.textContent, false)
   }
 
-  handleKeyDown = (event) => {
+  handleKeyDown = event => {
     if (event.keyCode === 38) {
       this.up()
     } else if (event.keyCode === 40) {
@@ -67,7 +68,7 @@ class Autocomplete extends Component {
     }
   }
 
-  saveList = (ul) => {
+  saveList = ul => {
     this.ul = ul
   }
 
@@ -111,7 +112,7 @@ class Autocomplete extends Component {
   renderList() {
     if (!this.state.shouldShow) return null
     const { value, cursor } = this.state
-    const regex = new RegExp(String(value).replace(/\\/g, '\\\\'), 'i')
+    const regex = new RegExp(escapeStringRegexp(value), 'i')
     const items = this.props.items.filter(x => regex.test(x))
     this.length = items.length
     if (this.length === 0) return null
@@ -125,7 +126,7 @@ class Autocomplete extends Component {
       >
         {items.map((item, index) => (
           <li
-            key={item}
+            key={index}
             className={
               index === cursor
                 ? 'autocomplete__item autocomplete__item--active'

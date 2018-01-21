@@ -12,15 +12,16 @@
     "watch": "npm run build -- -w"
   },
   "devDependencies": {
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "babel-loader": "^7.1.2",
-    "babel-core":"^6.26.0",
     "babel-config-dgeibi-rc": "^1.0.0",
-    "bili": "^1.6.5"
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "bili": "^1.6.5",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
   },
   "dependencies": {
-    "babel-runtime": "^6.26.0"
+    "babel-runtime": "^6.26.0",
+    "escape-string-regexp": "^1.0.5"
   },
   "author": "dgeibi",
   "license": "MIT"
