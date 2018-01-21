@@ -19,7 +19,7 @@
   width: 100%;
   margin-top: 0;
   border: 1px solid #eee;
-  border-top: 0;
+  border-top: 1px solid transparent;
   padding: 0;
   margin: 0;
   max-height: 150px;
@@ -36,6 +36,7 @@
 }
 
 .autocomplete__item:hover,
+.autocomplete__item--active,
 .autocomplete__item--active.autocomplete__item:hover {
   background: #97b8e7;
 }
