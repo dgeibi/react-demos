@@ -1,0 +1,30 @@
+{
+  "name": "redux-timer",
+  "version": "1.0.0",
+  "description": "stop watch written with redux",
+  "devDependencies": {
+    "babel-plugin-emotion": "^8.0.0",
+    "babel-preset-react-app": "^3.1.1",
+    "poi": "^9.6.12",
+    "poi-preset-react": "^9.2.1",
+    "@dgeibi/poi-preset-react": "^1.0.0",
+    "tyu": "^1.0.5"
+  },
+  "scripts": {
+    "dev": "poi",
+    "build": "poi build",
+    "test": "tyu"
+  },
+  "author": "dgeibi",
+  "license": "MIT",
+  "dependencies": {
+    "emotion": "^8.0.0",
+    "react-emotion":"^8.0.0",
+    "performance-now": "^2.1.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.5",
+    "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0"
+  }
+}

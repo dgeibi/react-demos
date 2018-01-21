@@ -6,9 +6,9 @@ import { view as Watch } from './watch'
 
 export default () => (
   <Provider store={store}>
-    <div>
+    <React.Fragment>
       <Watch timeout={20} id={1} />
       <Watch timeout={30} id={2} />
-    </div>
+    </React.Fragment>
   </Provider>
 )
