@@ -5,7 +5,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "bili --format cjs,es --no-inline"
+    "build": "bili --format cjs,es --no-inline",
+    "watch": "npm run build -- -w"
   },
   "main": "dist/@dgeibi/carousel.cjs.js",
   "module": "dist/@dgeibi/carousel.m.js",
