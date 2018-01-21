@@ -240,21 +240,20 @@ export default class Carousel extends Component {
           {React.Children.map(this.props.children, this.wrapChild)}
           {this.wrapChild(head)}
         </div>
-        {this.childCount
-          ? Array.from(Array(this.childCount), (v, k) => (
-              <button
-                key={k}
-                onClick={() => this.goTo(-k)}
-                type="button"
-                style={{
-                  background: k === -index ? '#00ee11' : 'grey',
-                  border: 0,
-                }}
-              >
-                {k + 1}
-              </button>
-            ))
-          : null}
+        {this.childCount > 0 &&
+          Array.from(Array(this.childCount), (v, k) => (
+            <button
+              key={k}
+              onClick={() => this.goTo(-k)}
+              type="button"
+              style={{
+                background: k === -index ? '#00ee11' : 'grey',
+                border: 0,
+              }}
+            >
+              {k + 1}
+            </button>
+          ))}
         <div>
           <button type="button" onClick={this.prev}>
             prev
