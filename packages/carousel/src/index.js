@@ -56,10 +56,12 @@ export default class Carousel extends Component {
   }
 
   fitX() {
+    const rindex = this.getRealIndex(this.state.currentIndex)
     const width = this.getSlideWidth()
     this.setState({
+      currentIndex: rindex,
       slideWidth: width,
-      x: this.state.currentIndex * width,
+      x: rindex * width,
     })
   }
 
