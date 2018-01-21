@@ -16,6 +16,7 @@ export default class App extends Component {
         style={{
           maxWidth: 700,
           margin: '0 auto',
+          padding: '0 10px',
         }}
       >
         <button
