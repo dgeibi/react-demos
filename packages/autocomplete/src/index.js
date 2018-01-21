@@ -99,7 +99,7 @@ class Autocomplete extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { cursor } = this.state
-    if (prevState.cursor !== cursor && this.state.shouldShow && this.length > 0) {
+    if (prevState.cursor !== cursor && this.isShowed()) {
       const { height } = this.ul.getBoundingClientRect()
       const activeTop = this.ul.childNodes[cursor].offsetTop
       const scrollTop = this.ul.scrollTop
