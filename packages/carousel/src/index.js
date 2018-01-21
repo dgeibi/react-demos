@@ -47,7 +47,7 @@ export default class Carousel extends Component {
 
   getSlideWidth() {
     const element = ReactDOM.findDOMNode(this)
-    return Math.max(Math.floor(getWidth(element && element.parentNode)), 0)
+    return Math.max(Math.floor(getWidth(element)), 0)
   }
 
   onWindowResized = () => {
@@ -221,7 +221,6 @@ export default class Carousel extends Component {
     return (
       <div
         style={{
-          width: this.state.slideWidth,
           overflow: 'hidden',
         }}
       >
