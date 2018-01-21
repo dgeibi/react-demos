@@ -97,6 +97,17 @@ class Autocomplete extends Component {
     })
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const { cursor } = this.state
+    if (prevState.cursor !== cursor && this.state.shouldShow && this.length > 0) {
+      const { height } = this.ul.getBoundingClientRect()
+      const activeTop = this.ul.childNodes[cursor].offsetTop
+      const scrollTop = this.ul.scrollTop
+      if (activeTop >= scrollTop && activeTop < scrollTop + height - 20) return
+      this.ul.scrollTop = activeTop
+    }
+  }
+
   renderList() {
     if (!this.state.shouldShow) return null
     const { value, cursor } = this.state
