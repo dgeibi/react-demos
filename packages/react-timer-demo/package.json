@@ -1,0 +1,24 @@
+{
+  "name": "react-timer-demo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "poi",
+    "build": "poi build",
+    "test": "tyu"
+  },
+  "author": "dgeibi",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-preset-react-app": "^3.1.0",
+    "@dgeibi/poi-preset-react": "^1.0.0",
+    "poi": "^9.6.12",
+    "poi-preset-react": "^9.2.1",
+    "tyu": "^1.0.5"
+  },
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "@dgeibi/react-timer": "^1.0.0"
+  }
+}

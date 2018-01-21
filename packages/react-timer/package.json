@@ -1,0 +1,29 @@
+{
+  "name": "@dgeibi/react-timer",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "bili --format cjs,es --no-inline",
+    "watch": "npm run build -- -w",
+    "test": "jest"
+  },
+  "main": "dist/@dgeibi/react-timer.cjs.js",
+  "module": "dist/@dgeibi/react-timer.m.js",
+  "devDependencies": {
+    "babel-config-dgeibi-rc": "^1.0.0",
+    "babel-core": "^6.26.0",
+    "bili": "^1.6.5",
+    "jest": "^22.1.4"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.26.0",
+    "performance-now": "^2.1.0",
+    "prop-types": "^15.6.0"
+  },
+  "jest": {
+    "setupFiles": [
+      "./jest.setup.js"
+    ]
+  }
+}
