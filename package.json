@@ -12,7 +12,8 @@
     "postinstall": "npm run build",
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,css}\"",
-    "precommit": "lint-staged && node genPages.js"
+    "deploy": "node deploy.js",
+    "precommit": "lint-staged && npm run -s deploy"
   },
   "author": "dgeibi",
   "license": "MIT",

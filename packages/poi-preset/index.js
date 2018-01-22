@@ -4,5 +4,9 @@ module.exports = () => poi => {
   })
   poi.extendWebpack('production', config => {
     config.output.publicPath('')
+    config.externals({
+      react: 'React',
+      'react-dom': 'ReactDOM',
+    })
   })
 }

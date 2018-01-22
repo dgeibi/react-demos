@@ -31,10 +31,12 @@ function indexTemplate({ names }) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>React Demo</title>
+  <title>React Demos</title>
+  <link rel="prefetch" href="https://cdn.jsdelivr.net/npm/react@16.2.0/umd/react.production.min.js">
+  <link rel="prefetch" href="https://cdn.jsdelivr.net/npm/react-dom@16.2.0/umd/react-dom.production.min.js">
 </head>
 <body>
-  <ul>${names.map(x => `<li><a href="${x}/index.html">${x}</a></li>`).join('')}</ul>
+  <ul>${names.map(x => `<li><a href="${x}/">${x}</a></li>`).join('')}</ul>
 </body>
 </html>`
 }
