@@ -1,7 +1,7 @@
 import now from 'performance-now'
 import TYPES from './constants'
 
-export default (id) => {
+export default id => {
   const stop = () => (dispatch, getState) => {
     const state = getState().watch[id]
     clearTimeout(state.timer)

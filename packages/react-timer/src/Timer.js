@@ -17,7 +17,7 @@ class Timer extends Component {
   }
 
   static contextTypes = {
-    timer: PropTypes.object
+    timer: PropTypes.object,
   }
 
   getControlFns = () => {
@@ -27,7 +27,7 @@ class Timer extends Component {
       (function tryGetControlFns() {
         const { start, reset, stop, pause } = timer
         return { start, reset, stop, pause }
-      }())
+      })()
     return this.fnsCache
   }
 

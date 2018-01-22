@@ -1,7 +1,7 @@
 module.exports = {
-  js: "babel",
+  js: 'babel',
   babel: {
-    runtimeHelpers: true
+    runtimeHelpers: true,
   },
-  external: ['react', 'react-dom', 'babel-runtime']
+  external: ['react', 'react-dom', 'babel-runtime'],
 }

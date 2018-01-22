@@ -11,7 +11,7 @@ class Scheduler extends Component {
   }
 
   static contextTypes = {
-    timer: PropTypes.object
+    timer: PropTypes.object,
   }
 
   componentWillMount() {

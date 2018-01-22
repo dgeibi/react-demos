@@ -11,7 +11,6 @@ if (process.env.NODE_ENV !== 'production' && module.hot) {
   global.timers = global.timers || {}
 }
 
-
 class TimerProvider extends Component {
   static Timer = Timer
   static Scheduler = Scheduler
