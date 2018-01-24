@@ -32,6 +32,7 @@
     "gh-pages": "^1.1.0"
   },
   "lint-staged": {
-    "*.{js,css}": ["prettier --write", "eslint", "git add"]
+    "*.js": ["prettier --write", "eslint", "git add"],
+    "*.css": ["prettier --write", "git add"]
   }
 }

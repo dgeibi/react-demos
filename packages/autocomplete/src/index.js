@@ -1,35 +1,58 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import escapeStringRegexp from 'escape-string-regexp'
+import classnames from 'classnames'
+import noop from 'no-op'
+
 import './Autocomplete.css'
 
 class Autocomplete extends Component {
   state = {
-    value: '',
+    value: this.props.value,
     cursor: 0,
-    shouldShow: false,
+    open: false,
     hover: false,
+    placeholder: this.props.placeholder,
+  }
+
+  static defaultProps = {
+    onChange: noop,
+    onSelect: noop,
+    value: '',
+    placeholder: '',
   }
 
   static propTypes = {
     items: PropTypes.array.isRequired,
   }
 
-  setValue(value, shouldShow) {
-    this.setState({ value, cursor: 0, shouldShow })
+  setValue({ value, select }) {
+    this.setState({ value, cursor: 0, open: !select })
+    this.props.onChange(value)
+    if (select) {
+      this.props.onSelect(value)
+    }
   }
 
-  isShowed() {
-    return this.state.shouldShow && this.ul && this.ul.childNodes.length > 0
+  isOpen() {
+    return this.state.open && this.ul
   }
 
   handleInput = e => {
-    this.setValue(e.target.value, true)
+    const value = e.target.value
+    this.setValue({
+      value,
+      select: false,
+    })
   }
 
   handleClick = e => {
     if (!e.target.matches('li')) return
-    this.setValue(e.target.textContent, false)
+    const value = e.target.textContent
+    this.setValue({
+      value,
+      select: true,
+    })
   }
 
   handleKeyDown = event => {
@@ -38,13 +61,13 @@ class Autocomplete extends Component {
     } else if (event.keyCode === 40) {
       this.down()
     } else if (event.keyCode === 13) {
-      this.enter()
+      this.select()
     }
   }
 
   down() {
     const { cursor } = this.state
-    if (this.isShowed()) {
+    if (this.isOpen()) {
       this.setState({
         cursor: (cursor + 1) % this.length,
       })
@@ -53,18 +76,21 @@ class Autocomplete extends Component {
 
   up() {
     const { cursor } = this.state
-    if (this.isShowed()) {
+    if (this.isOpen()) {
       this.setState({
         cursor: (cursor - 1 + this.length) % this.length,
       })
     }
   }
 
-  enter() {
+  select() {
     const { cursor } = this.state
     if (this.ul) {
       const value = this.ul.childNodes[cursor].textContent
-      this.setValue(value, false)
+      this.setValue({
+        value,
+        select: true,
+      })
     }
   }
 
@@ -83,14 +109,14 @@ class Autocomplete extends Component {
 
   handleFocus = () => {
     this.setState({
-      shouldShow: true,
+      open: true,
     })
   }
 
   handleBlur = () => {
-    if (!this.state.hover && this.state.shouldShow) {
+    if (!this.state.hover && this.state.open) {
       this.setState({
-        shouldShow: false,
+        open: false,
       })
     }
   }
@@ -108,7 +134,7 @@ class Autocomplete extends Component {
   }
 
   cursorInView(cursor = this.state.cursor) {
-    if (this.isShowed()) {
+    if (this.isOpen()) {
       const { height } = this.ul.getBoundingClientRect()
       const activeTop = this.ul.childNodes[cursor].offsetTop
       const scrollTop = this.ul.scrollTop
@@ -119,18 +145,29 @@ class Autocomplete extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { cursor } = this.state
-    if (prevState.cursor !== cursor && this.isShowed() && !this.cursorInView(cursor)) {
+    if (prevState.cursor !== cursor && this.isOpen() && !this.cursorInView(cursor)) {
       this.ul.scrollTop = this.ul.childNodes[cursor].offsetTop
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.placeholder !== this.props.placeholder) {
+      this.setState({ placeholder: nextProps.placeholder })
+    }
+    if (nextProps.value !== this.props.value) {
+      this.setState({ value: nextProps.value, cursor: 0 })
+    }
+  }
+
   renderList() {
-    if (!this.state.shouldShow) return null
     const { value, cursor } = this.state
-    const regex = new RegExp(escapeStringRegexp(value), 'i')
+    const regex = new RegExp(escapeStringRegexp(String(value)), 'i')
     const items = this.props.items.filter(x => regex.test(x))
     this.length = items.length
-    if (this.length === 0) return null
+    const ulClasses = classnames({
+      autocomplete__list: true,
+      'autocomplete__list--hidden': !this.state.open || this.length <= 0,
+    })
     return (
       <ul
         ref={this.saveList}
@@ -138,7 +175,7 @@ class Autocomplete extends Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         onScroll={this.handleScroll}
-        className="autocomplete__list"
+        className={ulClasses}
       >
         {items.map((item, index) => (
           <li
@@ -157,12 +194,13 @@ class Autocomplete extends Component {
   }
 
   render() {
-    const { value } = this.state
+    const { value, placeholder } = this.state
     return (
       <div className="autocomplete">
         <input
           type="search"
           value={value}
+          placeholder={placeholder}
           onInput={this.handleInput}
           onKeyDown={this.handleKeyDown}
           onFocus={this.handleFocus}
