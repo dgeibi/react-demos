@@ -68,6 +68,15 @@ class Autocomplete extends Component {
     }
   }
 
+  handleScroll = () => {
+    if (this.cursorInView()) return
+    const unitH = this.ul.scrollHeight / this.ul.childNodes.length
+    const n = Math.max(Math.ceil(this.ul.scrollTop / unitH), 0)
+    this.setState({
+      cursor: n,
+    })
+  }
+
   saveList = ul => {
     this.ul = ul
   }
@@ -98,14 +107,20 @@ class Autocomplete extends Component {
     })
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { cursor } = this.state
-    if (prevState.cursor !== cursor && this.isShowed()) {
+  cursorInView(cursor = this.state.cursor) {
+    if (this.isShowed()) {
       const { height } = this.ul.getBoundingClientRect()
       const activeTop = this.ul.childNodes[cursor].offsetTop
       const scrollTop = this.ul.scrollTop
-      if (activeTop >= scrollTop && activeTop < scrollTop + height - 20) return
-      this.ul.scrollTop = activeTop
+      return activeTop >= scrollTop && activeTop < scrollTop + height - 20
+    }
+    return false
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { cursor } = this.state
+    if (prevState.cursor !== cursor && this.isShowed() && !this.cursorInView(cursor)) {
+      this.ul.scrollTop = this.ul.childNodes[cursor].offsetTop
     }
   }
 
@@ -122,6 +137,7 @@ class Autocomplete extends Component {
         onClick={this.handleClick}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
+        onScroll={this.handleScroll}
         className="autocomplete__list"
       >
         {items.map((item, index) => (

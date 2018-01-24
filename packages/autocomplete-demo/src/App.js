@@ -10,7 +10,7 @@ function App() {
       <section>
         <Autocomplete
           items={Array.from(Array(100), (v, k) =>
-            Array.from(Array(Math.ceil(k / 2)), () =>
+            Array.from(Array(Math.ceil(k / 2) + 1), () =>
               String.fromCharCode(codeA + k % 26)
             ).join('')
           )}
