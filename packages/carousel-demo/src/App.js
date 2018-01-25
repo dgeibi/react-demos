@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import bezier from 'bezier-easing'
 import Carousel from '@dgeibi/carousel'
+import '@dgeibi/carousel/dist/index.css'
 import './App.css'
 
 export default class App extends Component {
@@ -39,7 +40,12 @@ export default class App extends Component {
         >
           -
         </button>
-        <Carousel autoPlay>
+        <Carousel
+          autoPlay
+          style={{
+            marginTop: '16px',
+          }}
+        >
           {Array.from(Array(count), (v, k) => (
             <div key={k}>
               <h3 className="slice">{k + 1}</h3>
@@ -47,7 +53,13 @@ export default class App extends Component {
           ))}
         </Carousel>
 
-        <Carousel autoPlay timing={bezier(0.77, 0.09, 0.23, 0.73)}>
+        <Carousel
+          autoPlay
+          timing={bezier(0.77, 0.09, 0.23, 0.73)}
+          style={{
+            marginTop: '16px',
+          }}
+        >
           {Array.from(Array(count), (v, k) => (
             <div key={k}>
               <h3 className="slice">{k + 1}</h3>

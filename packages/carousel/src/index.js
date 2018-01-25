@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
+import classnames from 'classnames'
+
+import './index.css'
 import animate from './utils/animate'
 import getWidth from './utils/getWidth'
 
@@ -12,8 +15,12 @@ export default class Carousel extends Component {
     autoplayInterval: 1000,
     animateDuration: 500,
     timing: p => p,
+    dots: true,
+    prefixCls: '',
+    className: '',
   }
 
+  _childLength = 0
   _touchStartX = 0
   _touching = false
   state = {
@@ -157,7 +164,7 @@ export default class Carousel extends Component {
 
   next = () => {
     const { currentIndex } = this.state
-    if (currentIndex > -this.childCount) {
+    if (currentIndex > -this._childLength) {
       this.goTo(currentIndex - 1)
     }
   }
@@ -170,10 +177,10 @@ export default class Carousel extends Component {
   }
 
   getRealIndex(index) {
-    if (index < 1 - this.childCount) {
+    if (index < 1 - this._childLength) {
       return 0
     } else if (index > 0) {
-      return 1 - this.childCount
+      return 1 - this._childLength
     }
     return index
   }
@@ -201,67 +208,92 @@ export default class Carousel extends Component {
     }
   }
 
-  wrapChild = child => (
-    <div
-      style={{
-        width: this.state.slideWidth,
-        float: 'left',
-      }}
-      className="carousel-child"
-    >
-      {child}
-    </div>
-  )
+  getPrefixedCls(cls) {
+    const { prefixCls } = this.props
+    return prefixCls + cls
+  }
 
-  render() {
-    const children = React.Children.toArray(this.props.children)
-    const head = children[0]
-    const tail = children[children.length - 1]
-    this.childCount = children.length
+  getSlideStyle() {
+    const width = this.state.slideWidth
+    this._slideStyle =
+      this._slideStyle && this._slideStyle.width === width
+        ? this._slideStyle
+        : {
+            width,
+            float: 'left',
+          }
+    return this._slideStyle
+  }
 
+  renderDots() {
     const index = this.getRealIndex(this.state.currentIndex)
+    const dotCls = this.getPrefixedCls('carousel-dot')
+    const activeDotCls = classnames([dotCls, this.getPrefixedCls('carousel-dot-active')])
     return (
-      <div
-        style={{
-          overflow: 'hidden',
-        }}
-      >
-        <div
-          className="Carousel-wrapper"
-          style={{
-            width: (children.length + 2) * this.state.slideWidth,
-            transform: `translateX(${this.state.x - this.state.slideWidth}px)`,
-          }}
-          onTouchStart={this.onTouchStart}
-          onTouchMove={this.onTouchMove}
-          onTouchEnd={this.onTouchEnd}
-        >
-          {this.wrapChild(tail)}
-          {React.Children.map(this.props.children, this.wrapChild)}
-          {this.wrapChild(head)}
-        </div>
-        {this.childCount > 0 &&
-          Array.from(Array(this.childCount), (v, k) => (
+      <div className={this.getPrefixedCls('carousel-dots')}>
+        {this._childLength > 0 &&
+          Array.from(Array(this._childLength), (v, k) => (
             <button
               key={k}
               onClick={() => this.goTo(-k)}
               type="button"
-              style={{
-                background: k === -index ? '#00ee11' : 'grey',
-                border: 0,
-              }}
-            >
-              {k + 1}
-            </button>
+              className={k === -index ? activeDotCls : dotCls}
+            />
           ))}
-        <div>
-          <button type="button" onClick={this.prev}>
-            prev
-          </button>
-          <button type="button" onClick={this.next}>
-            next
-          </button>
-        </div>
+      </div>
+    )
+  }
+
+  renderTrack() {
+    const children = React.Children.toArray(this.props.children)
+    const head = children[0]
+    const tail = children[children.length - 1]
+    const length = children.length
+    this._childLength = length
+    const index = this.getRealIndex(this.state.currentIndex)
+
+    const slideCls = this.getPrefixedCls('carousel-slide')
+    const activeSlideCls = classnames([
+      slideCls,
+      this.getPrefixedCls('carousel-slide-active'),
+    ])
+    const wrapChild = (child, k) => (
+      <div
+        style={this.getSlideStyle()}
+        className={k === -index ? activeSlideCls : slideCls}
+      >
+        {child}
+      </div>
+    )
+    const { slideWidth, x } = this.state
+
+    return (
+      <div
+        className={this.getPrefixedCls('carousel-track')}
+        style={{
+          width: (length + 2) * slideWidth,
+          transform: `translateX(${x - slideWidth}px)`,
+        }}
+        onTouchStart={this.onTouchStart}
+        onTouchMove={this.onTouchMove}
+        onTouchEnd={this.onTouchEnd}
+      >
+        {wrapChild(tail, length - 1)}
+        {React.Children.map(this.props.children, wrapChild)}
+        {wrapChild(head, 0)}
+      </div>
+    )
+  }
+
+  render() {
+    const className = classnames({
+      [this.getPrefixedCls('carousel')]: true,
+      [this.props.className]: Boolean(this.props.className),
+    })
+    return (
+      <div className={className} style={this.props.style}>
+        {this.renderTrack()}
+        {this.props.dots && this.renderDots()}
       </div>
     )
   }
