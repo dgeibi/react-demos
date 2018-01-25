@@ -8,12 +8,13 @@
     "watch": "npm run build -- -w",
     "test": "jest"
   },
-  "main": "dist/@dgeibi/react-timer.cjs.js",
-  "module": "dist/@dgeibi/react-timer.m.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.m.js",
   "devDependencies": {
     "babel-config-dgeibi-rc": "^1.0.0",
     "babel-core": "^6.26.0",
     "bili": "^1.6.5",
+    "bili-config-rc": "^1.0.0",
     "jest": "^22.1.4"
   },
   "dependencies": {

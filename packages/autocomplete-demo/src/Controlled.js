@@ -1,6 +1,6 @@
 import React from 'react'
 import Autocomplete from '@dgeibi/autocomplete'
-import '@dgeibi/autocomplete/dist/@dgeibi/autocomplete.css'
+import '@dgeibi/autocomplete/dist/index.css'
 
 const codeA = 'A'.charCodeAt(0)
 

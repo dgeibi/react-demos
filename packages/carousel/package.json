@@ -8,11 +8,12 @@
     "build": "bili --format cjs,es --no-inline",
     "watch": "npm run build -- -w"
   },
-  "main": "dist/@dgeibi/carousel.cjs.js",
-  "module": "dist/@dgeibi/carousel.m.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.m.js",
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-config-dgeibi-rc": "^1.0.0",
+    "bili-config-rc": "^1.0.0",
     "bili": "^1.6.5"
   },
   "dependencies": {

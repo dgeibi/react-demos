@@ -2,10 +2,9 @@
   "name": "@dgeibi/autocomplete",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/@dgeibi/autocomplete.cjs.js",
-  "module": "dist/@dgeibi/autocomplete.m.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.m.js",
   "modulelName": "CAutocomplete",
-  "entry": "src/Autocomplete.js",
   "private": true,
   "scripts": {
     "build": "bili --format cjs,es --no-inline",
@@ -17,7 +16,8 @@
     "babel-loader": "^7.1.2",
     "bili": "^1.6.5",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "bili-config-rc": "^1.0.0"
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
