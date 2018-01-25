@@ -45,7 +45,7 @@ class App extends React.Component {
           placeholder={placeholder}
           onChange={this.handleChange}
           onSelect={this.handleSelect}
-          items={Array.from(Array(100), (v, k) =>
+          dataSource={Array.from(Array(100), (v, k) =>
             Array.from(Array(Math.ceil(k / 2) + 1), () =>
               String.fromCharCode(codeA + k % 26)
             ).join('')

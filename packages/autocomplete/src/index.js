@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import escapeStringRegexp from 'escape-string-regexp'
 import classnames from 'classnames'
 import noop from 'no-op'
-
 import './Autocomplete.css'
 
 class Autocomplete extends Component {
@@ -20,10 +19,18 @@ class Autocomplete extends Component {
     onSelect: noop,
     value: '',
     placeholder: '',
+    prefixCls: '',
+    className: '',
   }
 
   static propTypes = {
-    items: PropTypes.array.isRequired,
+    dataSource: PropTypes.array.isRequired,
+    onChange: PropTypes.func,
+    onSelect: PropTypes.func,
+    value: PropTypes.string,
+    placeholder: PropTypes.string,
+    prefixCls: PropTypes.string,
+    className: PropTypes.string,
   }
 
   setValue({ value, select }) {
@@ -161,13 +168,17 @@ class Autocomplete extends Component {
 
   renderList() {
     const { value, cursor } = this.state
+    const { prefixCls, dataSource } = this.props
     const regex = new RegExp(escapeStringRegexp(String(value)), 'i')
-    const items = this.props.items.filter(x => regex.test(x))
+    const items = dataSource.filter(x => regex.test(x))
     this.length = items.length
     const ulClasses = classnames({
-      autocomplete__list: true,
-      'autocomplete__list--hidden': !this.state.open || this.length <= 0,
+      [`${prefixCls}autocomplete__list`]: true,
+      [`${prefixCls}autocomplete__list--hidden`]: !this.state.open || this.length <= 0,
     })
+    const itemCls = `${prefixCls}autocomplete__item`
+    const itemActiveCls = `${itemCls} ${prefixCls}autocomplete__item--active`
+
     return (
       <ul
         ref={this.saveList}
@@ -178,14 +189,7 @@ class Autocomplete extends Component {
         className={ulClasses}
       >
         {items.map((item, index) => (
-          <li
-            key={index}
-            className={
-              index === cursor
-                ? 'autocomplete__item autocomplete__item--active'
-                : 'autocomplete__item'
-            }
-          >
+          <li key={index} className={index === cursor ? itemActiveCls : itemCls}>
             {item}
           </li>
         ))}
@@ -195,8 +199,13 @@ class Autocomplete extends Component {
 
   render() {
     const { value, placeholder } = this.state
+    const { prefixCls, className } = this.props
+    const cls = classnames({
+      [`${prefixCls}autocomplete`]: true,
+      className: Boolean(className),
+    })
     return (
-      <div className="autocomplete">
+      <div className={cls}>
         <input
           type="search"
           value={value}
@@ -205,7 +214,7 @@ class Autocomplete extends Component {
           onKeyDown={this.handleKeyDown}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
-          className="autocomplete__input"
+          className={`${prefixCls}autocomplete__input`}
         />
         {this.renderList()}
       </div>
