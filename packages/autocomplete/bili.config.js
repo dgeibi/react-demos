@@ -1,1 +1,1 @@
-module.exports = require('bili-config-rc')
+module.exports = require('shared/bili')

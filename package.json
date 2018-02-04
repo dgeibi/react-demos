@@ -9,7 +9,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
-    "postinstall": "npm run build",
+    "postinstall": "npm run -s build",
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,css}\"",
     "predeploy": "npm run -s build",

@@ -1,0 +1,11 @@
+{
+  "name": "shared",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "dgeibi",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "poi-preset-react": "^9.2.1"
+  }
+}

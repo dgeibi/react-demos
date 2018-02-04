@@ -6,14 +6,11 @@
     "babel-plugin-emotion": "^8.0.0",
     "babel-preset-react-app": "^3.1.1",
     "poi": "^9.6.12",
-    "poi-preset-react": "^9.2.1",
-    "@dgeibi/poi-preset-react": "^1.0.0",
-    "tyu": "^1.0.5"
+    "shared": "*"
   },
   "scripts": {
     "dev": "poi",
-    "build": "poi build",
-    "test": "tyu"
+    "build": "poi build"
   },
   "author": "dgeibi",
   "license": "MIT",
