@@ -1,9 +1,57 @@
 #! /usr/bin/env node
 
-const isWatch = String(process.argv[2]).trim() === '-w'
+const mri = require('mri')
 const bundle = require('.')
 
-bundle(undefined, undefined, isWatch).catch(err => {
+const uniq = x => (Array.isArray(x) ? [...new Set(x)] : [])
+
+function getOpts(args, mriOpts, { array, single }) {
+  const mout = mri(args, mriOpts)
+  const opts = {}
+  const has = Object.prototype.hasOwnProperty
+
+  uniq(array).forEach(key => {
+    if (Array.isArray(mout[key])) {
+      opts[key] = mout[key]
+    }
+  })
+
+  uniq(single).forEach(key => {
+    if (!has.call(mout, key)) return
+    const value = mout[key]
+    if (Array.isArray(value)) {
+      if (value[0]) {
+        opts[key] = value[0]
+      }
+      return
+    }
+    opts[key] = value
+  })
+
+  return opts
+}
+
+const args = process.argv.slice(2)
+
+const opts = getOpts(
+  args,
+  {
+    boolean: ['watch', 'no-sourcemap'],
+    string: ['cwd', 'output'],
+    alias: {
+      w: 'watch',
+      c: 'cwd',
+      _: 'entry',
+      o: 'output',
+      noSourcemap: 'no-sourcemap',
+    },
+  },
+  {
+    single: ['cwd', 'watch', 'entry', 'output', 'noSourcemap'],
+  }
+)
+
+bundle(opts).catch(err => {
   console.error(err)
   process.exit(err.code || 1)
 })

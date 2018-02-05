@@ -5,13 +5,12 @@ const noop = require('no-op')
 
 const getOpts = require('./getOpts')
 
-module.exports = function r(opts, cwd = '', isWatch) {
-  // eslint-disable-next-line no-param-reassign
-  cwd = path.resolve(process.cwd(), cwd)
-  const meta = getMeta(cwd)
+module.exports = function r(opts = {}) {
+  const cwd = path.resolve(process.cwd(), opts.cwd || '')
+  const meta = getMeta(cwd, opts)
   const { onBuild = noop, inputOptions, outputOptions } = getOpts(meta, opts)
 
-  if (isWatch) {
+  if (opts.watch) {
     return new Promise((resolve, reject) => {
       watch(
         Object.assign(
@@ -80,10 +79,10 @@ function getFallbackPkg(cwd) {
   return { name }
 }
 
-function getMeta(cwd) {
+function getMeta(cwd, { output = 'dist' }) {
   const pkg = getPkg(cwd)
-  const mainDest = path.join(cwd, pkg.main || 'dist/index.js')
-  const moduleDest = path.join(cwd, pkg.module || 'dist/index.es.js')
+  const mainDest = path.join(cwd, pkg.main || `${output}/index.js`)
+  const moduleDest = path.join(cwd, pkg.module || `${output}/index.es.js`)
 
   return {
     cwd,
