@@ -10,7 +10,7 @@
     "build": "lerna run build",
     "postinstall": "npm run -s build",
     "lint": "eslint .",
-    "format": "prettier --write \"**/*.{js,css}\"",
+    "format": "prettier --write \"**/*.{js,css,json,md}\" \"**/.*rc\"",
     "predeploy": "npm run -s build",
     "deploy": "node deploy.js",
     "precommit": "lint-staged"
@@ -32,7 +32,7 @@
   },
   "lint-staged": {
     "*.js": ["prettier --write", "eslint", "git add"],
-    "*.{css,json}": ["prettier --write", "git add"],
+    "*.{css,json,md}": ["prettier --write", "git add"],
     ".*rc": ["prettier --write", "git add"]
   }
 }
