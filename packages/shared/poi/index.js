@@ -1,4 +1,4 @@
-module.exports = {
+module.exports = () => ({
   entry: 'src/index.js',
   html: {
     template: require.resolve('./template.html'),
@@ -9,4 +9,4 @@ module.exports = {
   babel: {
     cacheDirectory: true,
   },
-}
+})

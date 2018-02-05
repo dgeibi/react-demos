@@ -7,14 +7,13 @@
   "private": true,
   "workspaces": ["packages/*"],
   "scripts": {
-    "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "postinstall": "npm run -s build",
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{js,css}\"",
     "predeploy": "npm run -s build",
     "deploy": "node deploy.js",
-    "precommit": "lint-staged && npm run -s deploy"
+    "precommit": "lint-staged"
   },
   "author": "dgeibi",
   "license": "MIT",
@@ -33,6 +32,7 @@
   },
   "lint-staged": {
     "*.js": ["prettier --write", "eslint", "git add"],
-    "*.css": ["prettier --write", "git add"]
+    "*.{css,json}": ["prettier --write", "git add"],
+    ".*rc": ["prettier --write", "git add"]
   }
 }

@@ -5,19 +5,17 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "bili --format cjs,es --no-inline",
-    "watch": "npm run build -- -w"
+    "build": "bundle-rc",
+    "watch": "bundle-rc -w"
   },
   "main": "dist/index.cjs.js",
   "module": "dist/index.m.js",
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-config-dgeibi-rc": "^1.0.0",
-    "shared": "*",
-    "bili": "^1.6.5"
+    "babel-preset-dgeibi-react": "*",
+    "bundle-rc": "*"
   },
   "dependencies": {
-    "babel-runtime": "^6.26.0",
+    "@babel/runtime": "7.0.0-beta.39",
     "classnames": "^2.2.5"
   }
 }

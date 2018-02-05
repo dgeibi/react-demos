@@ -4,8 +4,9 @@
   "description": "stop watch written with redux",
   "devDependencies": {
     "babel-plugin-emotion": "^8.0.0",
-    "babel-preset-react-app": "^3.1.1",
+    "babel-core": "^7.0.0-0",
     "poi": "^9.6.12",
+    "babel-preset-dgeibi-react": "*",
     "shared": "*"
   },
   "scripts": {
@@ -16,7 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "emotion": "^8.0.0",
-    "react-emotion":"^8.0.0",
+    "react-emotion": "^8.0.0",
     "performance-now": "^2.1.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",

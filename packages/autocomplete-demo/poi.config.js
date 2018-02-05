@@ -1,1 +1,1 @@
-module.exports = require('shared/poi')
+module.exports = require('shared/poi')()
