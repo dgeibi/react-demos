@@ -3,14 +3,26 @@ const path = require('path')
 const fs = require('fs-extra')
 const noop = require('no-op')
 
-const getOpts = require('./getOpts')
+const getRollupOptions = require('./getRollupOptions')
 
-module.exports = function r(opts = {}) {
-  const cwd = path.resolve(process.cwd(), opts.cwd || '')
-  const meta = getMeta(cwd, opts)
-  const { onBuild = noop, inputOptions, outputOptions } = getOpts(meta, opts)
+module.exports = function bundleRC(opts) {
+  const options = normalizeOpts(opts, {
+    cwd: '',
+    output: 'dist',
+    entry: './src/index.js',
+    onBuild: noop,
+  })
 
-  if (opts.watch) {
+  options.cwd = path.resolve(process.cwd(), options.cwd)
+  const { cwd } = options
+
+  if (options.clean) {
+    fs.emptyDirSync(path.join(cwd, options.output))
+  }
+
+  const { onBuild, inputOptions, outputOptions } = getRollupOptions(options)
+
+  if (options.watch) {
     return new Promise((resolve, reject) => {
       watch(
         Object.assign(
@@ -31,7 +43,7 @@ module.exports = function r(opts = {}) {
         if (e.code === 'END') {
           printInfo(outputOptions)
           try {
-            onBuild(e)
+            onBuild()
           } catch (err) {
             reject(err)
           }
@@ -55,40 +67,14 @@ function normalizePath(filepath) {
   return path.relative(process.cwd(), filepath)
 }
 
-function isFile(p) {
-  try {
-    return fs.statSync(p).isFile()
-  } catch (e) {
-    return false
-  }
-}
+function normalizeOpts(opts, defaults) {
+  const newOpts = Object.assign({}, opts)
 
-function getPkg(cwd) {
-  fs.ensureDirSync(cwd)
-  const pkgdir = path.join(cwd, 'package.json')
-  if (isFile(pkgdir)) return JSON.parse(fs.readFileSync(pkgdir))
-  return getFallbackPkg(cwd)
-}
+  Object.keys(defaults).forEach(key => {
+    if (newOpts[key] === undefined) {
+      newOpts[key] = defaults[key]
+    }
+  })
 
-function getFallbackPkg(cwd) {
-  const name = path
-    .basename(cwd)
-    .trim()
-    .toLowerCase()
-    .replace(/\s/g, '-')
-  return { name }
-}
-
-function getMeta(cwd, { output = 'dist' }) {
-  const pkg = getPkg(cwd)
-  const mainDest = path.join(cwd, pkg.main || `${output}/index.js`)
-  const moduleDest = path.join(cwd, pkg.module || `${output}/index.es.js`)
-
-  return {
-    cwd,
-    pkg,
-    dirname: path.dirname(mainDest),
-    mainDest,
-    moduleDest,
-  }
+  return newOpts
 }

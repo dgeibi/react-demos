@@ -7,7 +7,7 @@
   "modulelName": "CAutocomplete",
   "private": true,
   "scripts": {
-    "build": "bundle-rc",
+    "build": "bundle-rc --clean",
     "watch": "bundle-rc -w"
   },
   "devDependencies": {

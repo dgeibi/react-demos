@@ -36,18 +36,17 @@ const args = process.argv.slice(2)
 const opts = getOpts(
   args,
   {
-    boolean: ['watch', 'no-sourcemap'],
+    boolean: ['watch', 'nosourcemap', 'clean'],
     string: ['cwd', 'output'],
     alias: {
       w: 'watch',
       c: 'cwd',
       _: 'entry',
       o: 'output',
-      noSourcemap: 'no-sourcemap',
     },
   },
   {
-    single: ['cwd', 'watch', 'entry', 'output', 'noSourcemap'],
+    single: ['cwd', 'watch', 'entry', 'output', 'nosourcemap', 'clean'],
   }
 )
 
