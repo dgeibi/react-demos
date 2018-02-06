@@ -52,10 +52,9 @@ module.exports = function bundleRC(opts) {
     })
   }
 
-  return Promise.all(
-    outputOptions.map(output => rollup(inputOptions).then(bundle => bundle.write(output)))
-  )
-    .then(onBuild)
+  return rollup(inputOptions)
+    .then(bundle => Promise.all(outputOptions.map(output => bundle.write(output))))
+    .then(() => onBuild())
     .then(() => printInfo(outputOptions))
 }
 
