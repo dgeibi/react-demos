@@ -57,14 +57,14 @@ function getRollupOptions({ onBuild, entry, nosourcemap, output, cwd } = {}) {
 
   let extractCSS = null
   const sourcemap = !nosourcemap
-  const newOnBuild = async e => {
+  const newOnBuild = async () => {
     if (extractCSS) {
       const bundle = extractCSS()
       extractCSS = null
       await writeCSS(bundle, sourcemap)
       console.log(bundle.codeFilePath)
     }
-    return onBuild(e)
+    return onBuild()
   }
 
   const outputOptions = [
