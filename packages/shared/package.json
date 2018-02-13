@@ -5,7 +5,5 @@
   "author": "dgeibi",
   "license": "MIT",
   "private": true,
-  "dependencies": {
-    "poi-preset-react": "^9.2.1"
-  }
+  "dependencies": {}
 }

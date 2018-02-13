@@ -4,8 +4,7 @@
   "description": "stop watch written with redux",
   "devDependencies": {
     "babel-plugin-emotion": "^8.0.0",
-    "babel-core": "^7.0.0-0",
-    "poi": "^9.6.12",
+    "poi": "10.0.0-alpha.0",
     "babel-preset-dgeibi-react": "*",
     "shared": "*"
   },
