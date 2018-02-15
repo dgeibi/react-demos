@@ -1,15 +1,21 @@
 module.exports = () => poi => {
   poi.extendWebpack((config, { command }) => {
     if (command === 'develop') {
-      config.set('devtool', 'cheap-module-source-map')
+      dev(config)
     } else if (command === 'build') {
-      const output = config.get('output') || {}
-      output.publicPath = ''
-      config.set('output', output)
-      config.set('externals', {
-        react: 'React',
-        'react-dom': 'ReactDOM',
-      })
+      prod(config)
     }
   })
+}
+
+function prod(config) {
+  config.set('output.publicPath', '')
+  config.append('externals', {
+    react: 'React',
+    'react-dom': 'ReactDOM',
+  })
+}
+
+function dev(config) {
+  config.set('devtool', 'cheap-module-source-map')
 }

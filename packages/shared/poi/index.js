@@ -4,7 +4,7 @@ module.exports = () => ({
     template: require.resolve('./template.html'),
   },
   vendor: false,
-  clear: false,
+  clearScreen: false,
   plugins: [require('./plugin')()],
   babel: {
     cacheDirectory: true,
