@@ -101,15 +101,6 @@ class Autocomplete extends Component {
     }
   }
 
-  handleScroll = () => {
-    if (this.cursorInView()) return
-    const unitH = this.ul.scrollHeight / this.ul.childNodes.length
-    const n = Math.max(Math.ceil(this.ul.scrollTop / unitH), 0)
-    this.setState({
-      cursor: n,
-    })
-  }
-
   saveList = ul => {
     this.ul = ul
   }
@@ -142,10 +133,14 @@ class Autocomplete extends Component {
 
   cursorInView(cursor = this.state.cursor) {
     if (this.isOpen()) {
-      const { height } = this.ul.getBoundingClientRect()
-      const activeTop = this.ul.childNodes[cursor].offsetTop
-      const scrollTop = this.ul.scrollTop
-      return activeTop >= scrollTop && activeTop < scrollTop + height - 20
+      const { clientHeight, scrollTop } = this.ul
+      const { offsetTop: activeTop, offsetHeight: childHeight } = this.ul.childNodes[
+        cursor
+      ]
+      return (
+        activeTop >= scrollTop &&
+        Math.round(activeTop + childHeight - (scrollTop + clientHeight)) <= 0
+      )
     }
     return false
   }
@@ -153,7 +148,15 @@ class Autocomplete extends Component {
   componentDidUpdate(prevProps, prevState) {
     const { cursor } = this.state
     if (prevState.cursor !== cursor && this.isOpen() && !this.cursorInView(cursor)) {
-      this.ul.scrollTop = this.ul.childNodes[cursor].offsetTop
+      const { clientHeight } = this.ul
+      const node = this.ul.childNodes[cursor]
+      const { offsetTop } = node
+      if (prevState.cursor < cursor) {
+        const { offsetHeight } = node
+        this.ul.scrollTop = offsetTop - clientHeight + offsetHeight
+      } else {
+        this.ul.scrollTop = offsetTop
+      }
     }
   }
 
@@ -185,7 +188,6 @@ class Autocomplete extends Component {
         onClick={this.handleClick}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        onScroll={this.handleScroll}
         className={ulClasses}
       >
         {items.map((item, index) => (
