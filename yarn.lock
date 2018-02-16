@@ -4129,6 +4129,10 @@ html-entities@^1.2.0:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/html-entities/-/html-entities-1.2.1.tgz#0df29351f0721163515dfb9e5543e5f6eed5162f"
 
+html-es6cape@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/html-es6cape/-/html-es6cape-1.0.5.tgz#f3a437883b0594a01b175a6a2833090920b37d85"
+
 html-minifier@^3.2.3:
   version "3.5.5"
   resolved "https://registry.yarnpkg.com/html-minifier/-/html-minifier-3.5.5.tgz#3bdc9427e638bbe3dbde96c0eb988b044f02739e"
@@ -4145,6 +4149,12 @@ html-minifier@^3.2.3:
 html-tags@^2.0.0:
   version "2.0.0"
   resolved "http://registry.npm.taobao.org/html-tags/download/html-tags-2.0.0.tgz#10b30a386085f43cede353cc8fa7cb0deeea668b"
+
+html-template-tag@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/html-template-tag/-/html-template-tag-2.0.0.tgz#797ed5d6586c9654275f646d7396fb5dd0c90cfd"
+  dependencies:
+    html-es6cape "^1.0.5"
 
 html-webpack-plugin@^2.28.0:
   version "2.30.1"
