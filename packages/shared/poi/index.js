@@ -1,12 +1,12 @@
-module.exports = {
-  entry: 'src/index.js',
+module.exports = () => ({
+  entry: ['./src/index.js'],
   html: {
     template: require.resolve('./template.html'),
   },
   vendor: false,
-  clear: false,
-  presets: [require('poi-preset-react')(), require('./preset')()],
+  clearScreen: false,
+  plugins: [require('./plugin')()],
   babel: {
     cacheDirectory: true,
   },
-}
+})

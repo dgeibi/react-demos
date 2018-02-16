@@ -1,6 +1,7 @@
 const { copySync, writeFileSync, removeSync } = require('fs-extra')
 const glob = require('glob')
 const ghPages = require('gh-pages')
+const html = require('html-template-tag')
 
 const SITE = './site'
 
@@ -24,20 +25,26 @@ glob('./packages/*-demo/dist', (err, matches) => {
   })
 })
 
+const urls = [
+  'https://cdn.polyfill.io/v2/polyfill.min.js',
+  'https://cdn.jsdelivr.net/npm/react@16.2.0/umd/react.production.min.js',
+  'https://cdn.jsdelivr.net/npm/react-dom@16.2.0/umd/react-dom.production.min.js',
+]
+
 function indexTemplate({ names }) {
-  return `<!DOCTYPE html>
+  return html`<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>React Demos</title>
-  <link rel="prefetch" href="https://cdn.polyfill.io/v2/polyfill.min.js">
-  <link rel="prefetch" href="https://cdn.jsdelivr.net/npm/react@16.2.0/umd/react.production.min.js">
-  <link rel="prefetch" href="https://cdn.jsdelivr.net/npm/react-dom@16.2.0/umd/react-dom.production.min.js">
+  ${urls.map(
+    url => html`<link rel="prefetch" href="${url}"><link rel="preload" href="${url}">`
+  )}
 </head>
 <body>
-  <ul>${names.map(x => `<li><a href="${x}/">${x}</a></li>`).join('')}</ul>
+  <ul>${names.map(x => html`<li><a href="${x}/">${x}</a></li>`)}</ul>
 </body>
 </html>`
 }

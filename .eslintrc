@@ -5,6 +5,7 @@
     "no-mixed-operators": "off",
     "no-underscore-dangle": "off",
     "global-require": "off",
-    "prefer-destructuring": "off"
+    "prefer-destructuring": "off",
+    "no-console": "off"
   }
 }

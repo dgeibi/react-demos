@@ -9,13 +9,13 @@
   "author": "dgeibi",
   "license": "MIT",
   "devDependencies": {
-    "babel-preset-react-app": "^3.1.0",
-    "poi": "^9.6.12",
+    "babel-preset-dgeibi-react": "*",
+    "poi": "10.0.0-alpha.0",
     "shared": "*"
   },
   "dependencies": {
-    "react":"^16.2.0",
-    "react-dom":"^16.2.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "@dgeibi/autocomplete": "^1.0.0"
   }
 }

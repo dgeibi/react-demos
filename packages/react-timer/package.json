@@ -4,27 +4,24 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "bili --format cjs,es --no-inline",
-    "watch": "npm run build -- -w",
+    "build": "bundle-rc --clean",
+    "watch": "bundle-rc -w",
     "test": "jest"
   },
   "main": "dist/index.cjs.js",
   "module": "dist/index.m.js",
   "devDependencies": {
-    "babel-config-dgeibi-rc": "^1.0.0",
-    "babel-core": "^6.26.0",
-    "bili": "^1.6.5",
-    "shared": "*",
-    "jest": "^22.1.4"
+    "babel-preset-dgeibi-react": "*",
+    "bundle-rc": "*",
+    "jest": "^22.1.4",
+    "@babel/core": "7.0.0-beta.40"
   },
   "dependencies": {
-    "babel-runtime": "^6.26.0",
+    "@babel/runtime": "7.0.0-beta.40",
     "performance-now": "^2.1.0",
     "prop-types": "^15.6.0"
   },
   "jest": {
-    "setupFiles": [
-      "./jest.setup.js"
-    ]
+    "setupFiles": ["./jest.setup.js"]
   }
 }

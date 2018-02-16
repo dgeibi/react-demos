@@ -7,20 +7,17 @@
   "modulelName": "CAutocomplete",
   "private": true,
   "scripts": {
-    "build": "bili --format cjs,es --no-inline",
-    "watch": "npm run build -- -w"
+    "build": "bundle-rc --clean",
+    "watch": "bundle-rc -w"
   },
   "devDependencies": {
-    "babel-config-dgeibi-rc": "^1.0.0",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "bili": "^1.6.5",
+    "babel-preset-dgeibi-react": "*",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "shared": "*"
+    "bundle-rc": "*",
+    "react-dom": "^16.2.0"
   },
   "dependencies": {
-    "babel-runtime": "^6.26.0",
+    "@babel/runtime": "7.0.0-beta.40",
     "classnames": "^2.2.5",
     "escape-string-regexp": "^1.0.5",
     "no-op": "^1.0.3",
