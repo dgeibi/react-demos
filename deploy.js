@@ -1,4 +1,5 @@
-const { copySync, writeFileSync, removeSync } = require('fs-extra')
+const { copySync, writeFileSync, emptyDirSync } = require('fs-extra')
+const { spawn } = require('child_process')
 const glob = require('glob')
 const ghPages = require('gh-pages')
 const html = require('html-template-tag')
@@ -8,21 +9,39 @@ const SITE = './site'
 glob('./packages/*-demo/dist', (err, matches) => {
   if (err) throw err
   if (matches.length < 1) {
-    throw Error('nothing to do')
+    console.log('nothing to do')
+    process.exit(1)
   }
-  const names = []
-  matches.forEach(x => {
-    const name = x.match(/([^/]+)-demo/)[1]
-    const dist = `${SITE}/${name}`
-    removeSync(dist)
-    copySync(x, dist)
-    console.log(dist)
-    names.push(name)
+
+  /* clean up */
+  emptyDirSync(SITE)
+  matches.forEach(dir => {
+    emptyDirSync(dir)
   })
-  writeFileSync(`${SITE}/index.html`, indexTemplate({ names }))
-  ghPages.publish(SITE, error => {
-    if (error) throw error
+
+  const deploy = () => {
+    const names = []
+    matches.forEach(dir => {
+      const name = dir.match(/([^/]+)-demo/)[1]
+      const dist = `${SITE}/${name}`
+      copySync(dir, dist)
+      console.log(dist)
+      names.push(name)
+    })
+    writeFileSync(`${SITE}/index.html`, indexTemplate({ names }))
+    ghPages.publish(SITE, error => {
+      if (error) throw error
+    })
+  }
+
+  spawn('npm run -s build', {
+    stdio: 'inherit',
+    shell: true,
   })
+    .on('close', deploy)
+    .on('error', error => {
+      throw error
+    })
 })
 
 const urls = [
