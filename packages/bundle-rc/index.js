@@ -37,7 +37,7 @@ module.exports = function bundleRC(opts) {
         )
       ).on('event', async e => {
         if (e.code === 'ERROR' || e.code === 'FATAL') {
-          reject(e)
+          reject(e.error)
           return
         }
         if (e.code === 'END') {
