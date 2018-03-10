@@ -59,7 +59,8 @@ function indexTemplate({ names }) {
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>React Demos</title>
   ${urls.map(
-    url => html`<link rel="prefetch" href="${url}"><link rel="preload" href="${url}">`
+    url =>
+      html`<link rel="preload" href="${url}" as="script"><link rel="prefetch" href="${url}">`
   )}
 </head>
 <body>
