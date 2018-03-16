@@ -34,10 +34,8 @@ export default class App extends Component {
             b: !Number.isNaN(Number(input)) ? input : -1,
           }}
         >
-          <React.Fragment>
-            <Timer name="b" render={renderTimer} />
-            <Timer name="a" render={renderTimer} />
-          </React.Fragment>
+          <Timer name="b" render={renderTimer} />
+          <Timer name="a" render={renderTimer} />
         </TimerProvider>
       </div>
     )

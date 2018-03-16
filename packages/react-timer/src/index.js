@@ -1,4 +1,4 @@
-import { Component, Children } from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import TimerLogic from './utils/Timer'
@@ -7,51 +7,30 @@ import unlisten from './utils/unlisten'
 import Timer from './Timer'
 import Scheduler from './Scheduler'
 
-if (process.env.NODE_ENV !== 'production' && module.hot) {
-  global.timers = global.timers || {}
-}
-
 class TimerProvider extends Component {
   static Timer = Timer
   static Scheduler = Scheduler
 
   constructor(props, context) {
     super(props, context)
-    const { names, children } = props
+    const { names } = props
 
     if (!names || names.length < 1) throw Error('prop names should has at least element')
-    if (children && Children.count(children) > 1) {
-      throw Error('should have only one children')
-    }
 
     /** @type {function[]} */
     this.unwatches = []
     this.subscribes = []
 
-    const timersInit = global.timers || {}
-
     /** @type {{ [x: string]: TimerLogic }} */
-    this.timers = this.mapName((oldTimer, name) => {
-      const timeout = convertSecond(props.timeouts[name])
-      const timer = TimerLogic.isTimer(oldTimer) ? oldTimer : new TimerLogic({ timeout })
-      if (oldTimer === timer) {
-        if (timer.totalTime !== timeout) {
-          timer.setup({ timeout })
-        }
-      }
-      return timer
-    }, timersInit)
+    this.timers = names.reduce((ret, name) => {
+      const timer = new TimerLogic({ timeout: convertSecond(props.timeouts[name]) })
+      ret[name] = timer // eslint-disable-line
+      return ret
+    }, {})
 
     if (props.refTimers) {
       props.refTimers(this.timers)
     }
-  }
-
-  mapName(fn, init) {
-    return this.props.names.reduce((ret, key) => {
-      ret[key] = fn(ret[key], key) // eslint-disable-line
-      return ret
-    }, init || {})
   }
 
   forEachName(fn) {
@@ -105,8 +84,7 @@ class TimerProvider extends Component {
   }
 
   render() {
-    const { children } = this.props
-    return children && Children.only(children)
+    return this.props.children
   }
 }
 
