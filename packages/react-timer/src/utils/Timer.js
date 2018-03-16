@@ -108,6 +108,12 @@ class Timer {
     this.watches.push(fn)
     return unlisten(this.watches, fn)
   }
+
+  destory() {
+    this.watches.splice(0)
+    this.watches = null
+    this.stop()
+  }
 }
 
 export default Timer

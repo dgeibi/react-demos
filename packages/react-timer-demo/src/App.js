@@ -5,10 +5,11 @@ import './App.css'
 export default class App extends Component {
   state = {
     input: 40,
+    resetAllWhenTimeoutsChange: false,
   }
 
   render() {
-    const { input } = this.state
+    const { input, resetAllWhenTimeoutsChange } = this.state
 
     return (
       <div
@@ -18,21 +19,37 @@ export default class App extends Component {
           padding: '0 10px',
         }}
       >
-        set timeout:{' '}
-        <input
-          value={input}
-          onChange={e => {
-            this.setState({
-              input: e.target.value,
-            })
-          }}
-        />
+        <label>
+          set timeout:{' '}
+          <input
+            value={input}
+            onChange={e => {
+              this.setState({
+                input: e.target.value,
+              })
+            }}
+          />
+        </label>
+        <div>
+          <label>
+            reset all when timeouts change:{' '}
+            <input
+              type="checkbox"
+              checked={resetAllWhenTimeoutsChange}
+              onChange={e => {
+                this.setState({
+                  resetAllWhenTimeoutsChange: e.target.checked,
+                })
+              }}
+            />
+          </label>
+        </div>
         <TimerProvider
-          names={['a', 'b']}
           timeouts={{
             a: 30,
             b: !Number.isNaN(Number(input)) ? input : -1,
           }}
+          resetAllWhenTimeoutsChange={resetAllWhenTimeoutsChange}
         >
           <Timer name="b" render={renderTimer} />
           <Timer name="a" render={renderTimer} />

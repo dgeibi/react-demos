@@ -2,7 +2,6 @@ import { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import TimerLogic from './utils/Timer'
-import shallowEqual from './utils/shallowEqual'
 import unlisten from './utils/unlisten'
 import Timer from './Timer'
 import Scheduler from './Scheduler'
@@ -13,51 +12,101 @@ class TimerProvider extends Component {
 
   constructor(props, context) {
     super(props, context)
-    const { names } = props
-
-    if (!names || names.length < 1) throw Error('prop names should has at least element')
-
-    /** @type {function[]} */
-    this.unwatches = []
+    /** @type {{[x: string]: function }} */
+    this.unwatches = {}
     this.subscribes = []
 
     /** @type {{ [x: string]: TimerLogic }} */
-    this.timers = names.reduce((ret, name) => {
-      const timer = new TimerLogic({ timeout: convertSecond(props.timeouts[name]) })
-      ret[name] = timer // eslint-disable-line
-      return ret
-    }, {})
+    this.timers = {}
+
+    this.forEachName(name => {
+      this.createTimer(name, this.props.timeouts[name])
+    })
 
     if (props.refTimers) {
       props.refTimers(this.timers)
     }
   }
 
+  createTimer(name, timeout) {
+    this.timers[name] = new TimerLogic({ timeout: convertSecond(timeout) })
+  }
+
+  destoryTimer(name) {
+    if (this.timers[name]) {
+      this.timers[name].destory()
+      delete this.timers[name]
+      this.unwatchTimer(name)
+    }
+  }
+
   forEachName(fn) {
-    this.props.names.forEach(fn)
+    Object.keys(this.props.timeouts).forEach(fn)
   }
 
   componentWillReceiveProps(nextProps) {
-    if (!shallowEqual(nextProps.timeouts, this.props.timeouts)) {
-      this.forEachName(name => {
-        const timeout = convertSecond(nextProps.timeouts[name])
-        const timer = this.timers[name]
-        timer.setup({ timeout })
-      })
+    const oldTimeouts = this.props.timeouts
+    const nextTimeouts = nextProps.timeouts
+    const oldNames = Object.keys(oldTimeouts)
+    const nextNames = Object.keys(nextTimeouts)
+    let equal = oldNames.length === nextNames.length
+    for (let i = 0; i < nextNames.length; i += 1) {
+      const name = nextNames[i]
+      if (!(name in oldTimeouts)) {
+        // init new timer
+        this.createTimer(name, nextTimeouts[name])
+        this.watchTimer(name)
+        equal = false
+      } else if (equal && oldTimeouts[name] !== nextTimeouts[name]) {
+        equal = false
+      }
+    }
+    if (!equal) {
+      for (let i = 0; i < oldNames.length; i += 1) {
+        const name = oldNames[i]
+        const nextTimeout = nextTimeouts[name]
+        const oldTimeout = oldTimeouts[name]
+
+        // cleanup timer
+        if (!(name in nextTimeouts)) {
+          this.destoryTimer(name)
+        } else if (nextProps.resetAllWhenTimeoutsChange || oldTimeout !== nextTimeout) {
+          // reset timer
+          const timeout = convertSecond(nextTimeout)
+          this.timers[name].setup({ timeout })
+        }
+      }
     }
   }
 
   componentDidMount() {
-    const update = () => {
-      this.subscribes.forEach(fn => fn())
-    }
     this.forEachName(name => {
-      this.unwatches.push(this.timers[name].watch(update))
+      this.watchTimer(name)
     })
   }
 
+  executeSubs = () => {
+    this.subscribes.forEach(fn => fn())
+  }
+
+  watchTimer(name, fn = this.executeSubs) {
+    if (this.timers[name]) {
+      this.unwatches[name] = this.timers[name].watch(fn)
+    }
+  }
+
+  unwatchTimer(name) {
+    const fn = this.unwatches[name]
+    if (typeof fn === 'function') {
+      fn()
+    }
+    delete this.unwatches[name]
+  }
+
   componentWillUnmount() {
-    this.unwatches.forEach(fn => fn())
+    this.forEachName(name => {
+      this.unwatchTimer(name)
+    })
   }
 
   static childContextTypes = {
@@ -66,11 +115,10 @@ class TimerProvider extends Component {
 
   getChildContext() {
     const { timers, subscribe } = this
-    const { names, getCustomProps } = this.props
+    const { getCustomProps } = this.props
     return {
       timer: {
         timers,
-        names,
         subscribe,
         getCustomProps,
       },

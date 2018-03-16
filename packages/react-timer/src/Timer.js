@@ -9,8 +9,8 @@ class Timer extends Component {
       throw Error('<Timer>: prop render should be a function')
     }
     if (!name) throw Error('<Timer>:prop name should be provided')
-    const { names, timers } = context.timer
-    if (names.indexOf(name) < 0) {
+    const { timers } = context.timer
+    if (!timers[name]) {
       throw Error('<Timer>: name not providered in provider')
     }
     this.timer = timers[name]
@@ -42,8 +42,8 @@ class Timer extends Component {
   }
 
   computeCustomProps() {
-    const { getCustomProps, names, timers } = this.context.timer
-    if (getCustomProps) return getCustomProps(timers, names)
+    const { getCustomProps, timers } = this.context.timer
+    if (getCustomProps) return getCustomProps(timers)
     return null
   }
 

@@ -25,8 +25,8 @@ class Scheduler extends Component {
   }
 
   computeCustomProps() {
-    const { getCustomProps, names, timers } = this.context.timer
-    if (getCustomProps) return getCustomProps(timers, names)
+    const { getCustomProps, timers } = this.context.timer
+    if (getCustomProps) return getCustomProps(timers)
     return null
   }
 
