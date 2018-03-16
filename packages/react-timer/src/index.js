@@ -68,7 +68,7 @@ class TimerProvider extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const update = () => {
       this.subscribes.forEach(fn => fn())
     }

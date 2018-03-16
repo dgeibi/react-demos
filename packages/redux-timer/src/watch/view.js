@@ -22,7 +22,7 @@ function convertMS(ms) {
 }
 
 class Watch extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.actions.init(this.props.timeout, this.props.total)
   }
 

@@ -14,7 +14,7 @@ class Scheduler extends Component {
     timer: PropTypes.object,
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.unsubscribe = this.context.timer.subscribe(() => {
       this.forceUpdate()
     })
