@@ -1,5 +1,5 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import TimerContext from './TimerContext'
 
 class Scheduler extends Component {
   constructor(props, context) {
@@ -10,32 +10,12 @@ class Scheduler extends Component {
     }
   }
 
-  static contextTypes = {
-    timer: PropTypes.object,
-  }
-
-  componentDidMount() {
-    this.unsubscribe = this.context.timer.subscribe(() => {
-      this.forceUpdate()
-    })
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe()
-  }
-
-  computeCustomProps() {
-    const { getCustomProps, timers } = this.context.timer
-    if (getCustomProps) return getCustomProps(timers)
-    return null
-  }
-
   render() {
-    const { timers } = this.context.timer
-    return this.props.render({
-      ...this.computeCustomProps(),
-      timers,
-    })
+    return (
+      <TimerContext.Consumer>
+        {({ timers }) => this.props.render({ timers })}
+      </TimerContext.Consumer>
+    )
   }
 }
 

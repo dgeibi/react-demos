@@ -14,8 +14,8 @@
     "shared": "*"
   },
   "dependencies": {
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1",
     "@dgeibi/carousel": "^1.0.0",
     "bezier-easing": "^2.0.3"
   }

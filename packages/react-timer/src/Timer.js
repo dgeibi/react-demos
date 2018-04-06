@@ -1,5 +1,5 @@
-import { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react'
+import TimerContext from './TimerContext'
 
 class Timer extends Component {
   constructor(props, context) {
@@ -9,57 +9,25 @@ class Timer extends Component {
       throw Error('<Timer>: prop render should be a function')
     }
     if (!name) throw Error('<Timer>:prop name should be provided')
-    const { timers } = context.timer
+  }
+
+  getRenderProps(timers) {
+    const { name } = this.props
     if (!timers[name]) {
       throw Error('<Timer>: name not providered in provider')
     }
-    this.timer = timers[name]
-  }
-
-  static contextTypes = {
-    timer: PropTypes.object,
-  }
-
-  getControlFns = () => {
-    const { timer } = this
-    this.fnsCache =
-      this.fnsCache ||
-      (function tryGetControlFns() {
-        const { start, reset, stop, pause } = timer
-        return { start, reset, stop, pause }
-      })()
-    return this.fnsCache
-  }
-
-  componentDidMount() {
-    this.unsubscribe = this.context.timer.subscribe(() => {
-      this.forceUpdate()
-    })
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe()
-  }
-
-  computeCustomProps() {
-    const { getCustomProps, timers } = this.context.timer
-    if (getCustomProps) return getCustomProps(timers)
-    return null
-  }
-
-  getRenderProps() {
-    const { getControlFns, timer } = this
-    const { name } = this.props
     return {
-      ...this.computeCustomProps(),
-      timer,
-      getControlFns,
+      timer: timers[name],
       name,
     }
   }
 
   render() {
-    return this.props.render(this.getRenderProps())
+    return (
+      <TimerContext.Consumer>
+        {({ timers }) => this.props.render(this.getRenderProps(timers))}
+      </TimerContext.Consumer>
+    )
   }
 }
 
