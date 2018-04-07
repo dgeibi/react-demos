@@ -6,8 +6,8 @@ import TimerLogic from './utils/Timer'
  */
 function convertSecond(second) {
   const millisecond = Math.floor(second) * 1e3
-  if (Number.isNaN(millisecond)) {
-    throw Error('secs should be number')
+  if (!Number.isFinite(millisecond)) {
+    throw Error('sec should be a finite number')
   }
   return millisecond
 }
@@ -43,7 +43,7 @@ export default class TimerController {
       if (!(name in oldTimeouts)) {
         // init new timer
         this.createTimer(name, nextTimeouts[name])
-        this.watchTimer(name)
+        this.watchTimer(name, this._update)
         equal = false
       } else if (equal && oldTimeouts[name] !== nextTimeouts[name]) {
         equal = false
@@ -103,14 +103,16 @@ export default class TimerController {
     delete this.unwatches[name]
   }
 
-  init(fn) {
-    const update = () => {
-      if (!this._stopWatching) {
-        fn(this._setNewContext())
-      }
+  _update = () => {
+    if (!this._stopWatching) {
+      this._callback(this._setNewContext())
     }
+  }
+
+  init(fn) {
+    this._callback = fn
     this.forEachName(name => {
-      this.watchTimer(name, update)
+      this.watchTimer(name, this._update)
     })
   }
 
@@ -118,5 +120,6 @@ export default class TimerController {
     this.forEachName(name => {
       this.destoryTimer(name)
     })
+    this._callback = null
   }
 }

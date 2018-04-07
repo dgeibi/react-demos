@@ -25,8 +25,8 @@ class Timer {
       throw new Error('setup(settings), settings need to be a object!')
     }
     const timeout = Math.floor(settings.timeout)
-    if (Number.isNaN(timeout)) {
-      throw new Error('setup(settings), settings.timeout need to be a number!')
+    if (!Number.isFinite(timeout)) {
+      throw new Error('setup(settings), settings.timeout need to be a finite number!')
     }
     this.totalTime = timeout
     this.reset()
