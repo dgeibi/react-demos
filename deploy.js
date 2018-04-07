@@ -44,11 +44,7 @@ glob('./packages/*-demo/dist', (err, matches) => {
     })
 })
 
-const urls = [
-  'https://cdn.polyfill.io/v2/polyfill.min.js',
-  'https://cdn.jsdelivr.net/npm/react@16.3.1/umd/react.production.min.js',
-  'https://cdn.jsdelivr.net/npm/react-dom@16.3.1/umd/react-dom.production.min.js',
-]
+const urls = require('./scripts.json')
 
 function indexTemplate({ names }) {
   return html`<!DOCTYPE html>

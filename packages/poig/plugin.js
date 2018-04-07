@@ -1,5 +1,14 @@
 module.exports = () => poi => {
   poi.extendWebpack((config, { command }) => {
+    config.merge({
+      optimization: {
+        splitChunks: {
+          chunks: 'async',
+        },
+        runtimeChunk: undefined,
+      },
+    })
+
     if (command === 'develop') {
       dev(config)
     } else if (command === 'build') {
@@ -9,13 +18,13 @@ module.exports = () => poi => {
 }
 
 function prod(config) {
-  config.set('output.publicPath', '')
-  config.append('externals', {
+  config.output.publicPath('')
+  config.externals({
     react: 'React',
     'react-dom': 'ReactDOM',
   })
 }
 
 function dev(config) {
-  config.set('devtool', 'cheap-module-source-map')
+  config.devtool('cheap-module-source-map')
 }

@@ -3,19 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "poi",
-    "build": "poi build"
+    "dev": "poig",
+    "build": "poig build"
   },
   "author": "dgeibi",
   "license": "MIT",
-  "devDependencies": {
-    "babel-preset-dgeibi-react": "*",
-    "poi": "10.0.0-alpha.1",
-    "shared": "*"
-  },
   "dependencies": {
-    "react": "^16.3.1",
-    "react-dom": "^16.3.1",
     "@dgeibi/react-timer": "^1.0.0"
   }
 }
