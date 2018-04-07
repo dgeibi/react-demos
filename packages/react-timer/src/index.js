@@ -23,8 +23,8 @@ class TimerProvider extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     const { timerController } = prevState
     const { timeouts, resetAllWhenTimeoutsChange } = nextProps
-    timerController.update({ timeouts, resetAllWhenTimeoutsChange })
-    return null
+    const context = timerController.update({ timeouts, resetAllWhenTimeoutsChange })
+    return context ? { context } : null
   }
 
   componentDidMount() {

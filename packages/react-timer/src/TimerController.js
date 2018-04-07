@@ -34,7 +34,7 @@ export default class TimerController {
     const nextTimeouts = timeouts
     const oldTimeouts = this.timeouts
     /* not changed */
-    if (nextTimeouts === oldTimeouts) return false
+    if (nextTimeouts === oldTimeouts) return null
     const oldNames = Object.keys(oldTimeouts)
     const nextNames = Object.keys(nextTimeouts)
     let equal = oldNames.length === nextNames.length
@@ -50,6 +50,7 @@ export default class TimerController {
       }
     }
     if (!equal) {
+      this._stopWatching = true
       for (let i = 0; i < oldNames.length; i += 1) {
         const name = oldNames[i]
         const nextTimeout = nextTimeouts[name]
@@ -64,9 +65,10 @@ export default class TimerController {
           this.timers[name].setup({ timeout })
         }
       }
+      this._stopWatching = false
     }
     this.timeouts = nextTimeouts
-    return !equal // changed
+    return !equal ? this._setNewContext() : null
   }
 
   createTimer(name, timeout) {
@@ -79,6 +81,12 @@ export default class TimerController {
       delete this.timers[name]
       this.unwatchTimer(name)
     }
+  }
+
+  _setNewContext() {
+    // update ref
+    this.context = Object.assign({}, this.context)
+    return this.context
   }
 
   watchTimer(name, fn) {
@@ -97,9 +105,9 @@ export default class TimerController {
 
   init(fn) {
     const update = () => {
-      // update ref
-      this.context = Object.assign({}, this.context)
-      fn(this.context)
+      if (!this._stopWatching) {
+        fn(this._setNewContext())
+      }
     }
     this.forEachName(name => {
       this.watchTimer(name, update)
