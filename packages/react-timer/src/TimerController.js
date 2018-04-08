@@ -20,9 +20,8 @@ export default class TimerController {
     /** @type {{ [x: string]: TimerLogic }} */
     this.timers = {}
     this.timeouts = timeouts
-    this.context = { timers: this.timers }
     this.forEachName(name => {
-      this.createTimer(name, timeouts[name])
+      this.timers[name] = TimerController.createTimer(timeouts[name])
     })
   }
 
@@ -38,41 +37,48 @@ export default class TimerController {
     const oldNames = Object.keys(oldTimeouts)
     const nextNames = Object.keys(nextTimeouts)
     let equal = oldNames.length === nextNames.length
+    const newTimers = {}
     for (let i = 0; i < nextNames.length; i += 1) {
       const name = nextNames[i]
       if (!(name in oldTimeouts)) {
-        // init new timer
-        this.createTimer(name, nextTimeouts[name])
-        this.watchTimer(name, this._update)
+        newTimers[name] = TimerController.createTimer(nextTimeouts[name])
+        this.watchTimer(newTimers[name], name, this._update)
         equal = false
       } else if (equal && oldTimeouts[name] !== nextTimeouts[name]) {
         equal = false
       }
     }
     if (!equal) {
+      this.setNextTimers(newTimers)
       this._stopWatching = true
       for (let i = 0; i < oldNames.length; i += 1) {
         const name = oldNames[i]
         const nextTimeout = nextTimeouts[name]
         const oldTimeout = oldTimeouts[name]
 
-        // cleanup timer
         if (!(name in nextTimeouts)) {
           this.destoryTimer(name)
         } else if (resetAllWhenTimeoutsChange || oldTimeout !== nextTimeout) {
-          // reset timer
-          const timeout = convertSecond(nextTimeout)
-          this.timers[name].setup({ timeout })
+          this.resetTimer(name, nextTimeout)
         }
       }
       this._stopWatching = false
     }
     this.timeouts = nextTimeouts
-    return !equal ? this._setNewContext() : null
+    return !equal ? this.timers : null
   }
 
-  createTimer(name, timeout) {
-    this.timers[name] = new TimerLogic({ timeout: convertSecond(timeout) })
+  static createTimer(timeout) {
+    return new TimerLogic({ timeout: convertSecond(timeout) })
+  }
+
+  setNextTimers(newTimers) {
+    this.timers = Object.assign({}, this.timers, newTimers)
+    return this.timers
+  }
+
+  resetTimer(name, timeout) {
+    this.timers[name].setup({ timeout: convertSecond(timeout) })
   }
 
   destoryTimer(name) {
@@ -83,16 +89,8 @@ export default class TimerController {
     }
   }
 
-  _setNewContext() {
-    // update ref
-    this.context = Object.assign({}, this.context)
-    return this.context
-  }
-
-  watchTimer(name, fn) {
-    if (this.timers[name]) {
-      this.unwatches[name] = this.timers[name].watch(fn)
-    }
+  watchTimer(timer, name, fn) {
+    this.unwatches[name] = timer.watch(fn)
   }
 
   unwatchTimer(name) {
@@ -105,14 +103,14 @@ export default class TimerController {
 
   _update = () => {
     if (!this._stopWatching) {
-      this._callback(this._setNewContext())
+      this._callback(this.setNextTimers())
     }
   }
 
   init(fn) {
     this._callback = fn
     this.forEachName(name => {
-      this.watchTimer(name, this._update)
+      this.watchTimer(this.timers[name], name, this._update)
     })
   }
 

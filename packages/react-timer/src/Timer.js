@@ -25,7 +25,7 @@ class Timer extends Component {
   render() {
     return (
       <TimerContext.Consumer>
-        {({ timers }) => this.props.render(this.getRenderProps(timers))}
+        {timers => this.props.render(this.getRenderProps(timers))}
       </TimerContext.Consumer>
     )
   }

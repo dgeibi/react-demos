@@ -16,21 +16,21 @@ class TimerProvider extends Component {
     })
     this.state = {
       timerController,
-      context: timerController.context,
+      timers: timerController.timers,
     }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const { timerController } = prevState
     const { timeouts, resetAllWhenTimeoutsChange } = nextProps
-    const context = timerController.update({ timeouts, resetAllWhenTimeoutsChange })
-    return context ? { context } : null
+    const timers = timerController.update({ timeouts, resetAllWhenTimeoutsChange })
+    return timers ? { timers } : null
   }
 
   componentDidMount() {
-    this.state.timerController.init(context => {
+    this.state.timerController.init(timers => {
       this.setState({
-        context,
+        timers,
       })
     })
   }
@@ -41,7 +41,7 @@ class TimerProvider extends Component {
 
   render() {
     return (
-      <TimerContext.Provider value={this.state.context}>
+      <TimerContext.Provider value={this.state.timers}>
         {this.props.children}
       </TimerContext.Provider>
     )
