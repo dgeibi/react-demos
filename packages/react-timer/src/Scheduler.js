@@ -6,7 +6,7 @@ class Scheduler extends Component {
     super(props, context)
     const { render } = props
     if (typeof render !== 'function') {
-      throw Error('<Scheduler>: prop render should be a function')
+      throw Error('<Scheduler>: Prop `render` should be a function')
     }
   }
 

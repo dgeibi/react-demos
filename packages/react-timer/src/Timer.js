@@ -6,9 +6,9 @@ class Timer extends Component {
     super(props)
     const { name, render } = props
     if (typeof render !== 'function') {
-      throw Error('<Timer>: prop render should be a function')
+      throw Error('<Timer>: Prop `render` should be a function')
     }
-    if (!name) throw Error('<Timer>:prop name should be provided')
+    if (!name) throw Error('<Timer>: Prop `name` should be provided')
 
     this.state = {
       name,
@@ -22,7 +22,9 @@ class Timer extends Component {
       return _timeout
     }
     throw Error(
-      `Invail Timeout for timer(${this.state.name}). "timeout" should be a finit number`
+      `<Timer>: Got invalid timeout for timer(${
+        this.state.name
+      }). "timeout" should be a finit number`
     )
   }
 
@@ -35,7 +37,7 @@ class Timer extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (prevState.name !== nextProps.name) {
-      console.error(Error('change name is not supported!'))
+      console.error(Error('<Timer>: Name changing is not supported!'))
     }
     if (prevState.timeout !== nextProps.timeout) {
       return { timeout: nextProps.timeout }
@@ -62,7 +64,7 @@ class Timer extends Component {
     const { name, timeout } = this.state
     if (!timers[name]) {
       if (timeout != null) return null
-      throw Error(`<Timer>: name (${name}) not providered in provider`)
+      throw Error(`<Timer>: Name(${name}) isn't providered in provider`)
     }
     return {
       timer: timers[name],
