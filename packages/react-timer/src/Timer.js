@@ -2,19 +2,67 @@ import React, { Component } from 'react'
 import TimerContext from './TimerContext'
 
 class Timer extends Component {
-  constructor(props, context) {
-    super(props, context)
+  constructor(props) {
+    super(props)
     const { name, render } = props
     if (typeof render !== 'function') {
       throw Error('<Timer>: prop render should be a function')
     }
     if (!name) throw Error('<Timer>:prop name should be provided')
+
+    this.state = {
+      name,
+      timeout: props.timeout,
+    }
+  }
+
+  validateTimeout(timeout) {
+    const _timeout = Math.floor(timeout)
+    if (Number.isFinite(_timeout)) {
+      return _timeout
+    }
+    throw Error(
+      `Invail Timeout for timer(${this.state.name}). "timeout" should be a finit number`
+    )
+  }
+
+  componentDidMount() {
+    const { timeout, name } = this.state
+    if (timeout != null) {
+      this.context.registerTimer(name, this.validateTimeout(timeout))
+    }
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.name !== nextProps.name) {
+      console.error(Error('change name is not supported!'))
+    }
+    if (prevState.timeout !== nextProps.timeout) {
+      return { timeout: nextProps.timeout }
+    }
+    return null
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const newTimeout = this.state.timeout
+    const prevTimeout = prevState.timeout
+
+    if (newTimeout !== prevTimeout) {
+      this.context.resetTimer(this.state.name, this.validateTimeout(newTimeout))
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.state.timeout != null) {
+      this.context.destoryTimer(this.state.name)
+    }
   }
 
   getRenderProps(timers) {
-    const { name } = this.props
+    const { name, timeout } = this.state
     if (!timers[name]) {
-      throw Error('<Timer>: name not providered in provider')
+      if (timeout != null) return null
+      throw Error(`<Timer>: name (${name}) not providered in provider`)
     }
     return {
       timer: timers[name],
@@ -25,7 +73,11 @@ class Timer extends Component {
   render() {
     return (
       <TimerContext.Consumer>
-        {timers => this.props.render(this.getRenderProps(timers))}
+        {context => {
+          this.context = context
+          const props = this.getRenderProps(context.timers)
+          return props ? this.props.render(props) : null
+        }}
       </TimerContext.Consumer>
     )
   }

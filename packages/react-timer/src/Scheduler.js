@@ -13,7 +13,7 @@ class Scheduler extends Component {
   render() {
     return (
       <TimerContext.Consumer>
-        {timers => this.props.render({ timers })}
+        {({ timers }) => this.props.render({ timers })}
       </TimerContext.Consumer>
     )
   }

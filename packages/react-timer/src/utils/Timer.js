@@ -110,9 +110,11 @@ class Timer {
   }
 
   destory() {
-    this.watches.splice(0)
-    this.watches = null
-    this.stop()
+    if (this.watches) {
+      this.stop()
+      this.watches.splice(0)
+      this.watches = null
+    }
   }
 }
 
