@@ -1,10 +1,12 @@
 const { copySync, writeFileSync, emptyDirSync } = require('fs-extra')
 const { spawn } = require('child_process')
 const glob = require('glob')
-const ghPages = require('gh-pages')
+
 const html = require('html-template-tag')
 
 const SITE = './site'
+
+const PREVIEW = process.argv[2] === 'preview'
 
 glob('./packages/*-demo/dist', (err, matches) => {
   if (err) throw err
@@ -29,9 +31,15 @@ glob('./packages/*-demo/dist', (err, matches) => {
       names.push(name)
     })
     writeFileSync(`${SITE}/index.html`, indexTemplate({ names }))
-    ghPages.publish(SITE, error => {
-      if (error) throw error
-    })
+    if (PREVIEW) {
+      require('serve')(SITE)
+    } else {
+      const ghPages = require('gh-pages')
+      ghPages.publish(SITE, error => {
+        if (error) throw error
+        console.log('deployed')
+      })
+    }
   }
 
   spawn('npm run -s build', {
