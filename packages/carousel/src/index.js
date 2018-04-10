@@ -62,7 +62,7 @@ export default class Carousel extends Component {
     this.update()
   }
 
-  fitX() {
+  fitDOM() {
     const rindex = this.getRealIndex(this.state.currentIndex)
     const width = this.getSlideWidth()
     this.setState({
@@ -72,8 +72,9 @@ export default class Carousel extends Component {
     })
   }
 
+  /* dom update */
   update() {
-    this.fitX()
+    this.fitDOM()
     if (this.props.autoPlay) {
       this.play()
     }
@@ -119,6 +120,17 @@ export default class Carousel extends Component {
     this.moveTo({ distance, index })
   }
 
+  goToRealIndexDirectly() {
+    const index = this.state.currentIndex
+    const rindex = this.getRealIndex(index)
+    const { slideWidth: width } = this.state
+
+    this.setState({
+      x: width * rindex,
+      currentIndex: rindex,
+    })
+  }
+
   moveTo({ distance, index }) {
     if (this._cancelAnimate) return
     const lastX = this.state.x
@@ -134,13 +146,7 @@ export default class Carousel extends Component {
       },
       onEnd: () => {
         this._cancelAnimate = null
-        const rindex = this.getRealIndex(index)
-        const { slideWidth: width } = this.state
-
-        this.setState({
-          x: width * rindex,
-          currentIndex: rindex,
-        })
+        this.goToRealIndexDirectly()
         if (this.props.autoPlay) {
           this.play()
         }
@@ -149,12 +155,11 @@ export default class Carousel extends Component {
   }
 
   goTo(index) {
-    if (this._cancelAnimate) return
     const { currentIndex } = this.state
-    const { slideWidth: width } = this.state
-
-    const distance = (index - currentIndex) * width
-    if (distance !== 0) {
+    if (this.getRealIndex(currentIndex) !== this.getRealIndex(index)) {
+      this.pause()
+      this.cancelAnimate()
+      const distance = (index - currentIndex) * this.state.slideWidth
       this.moveTo({
         distance,
         index,
@@ -192,6 +197,10 @@ export default class Carousel extends Component {
     }
   }
 
+  /**
+   * auto slide to the next
+   * @param {number} interval
+   */
   play(interval = this.props.autoplayInterval) {
     this.pause()
     if (this._touching) return
@@ -201,6 +210,9 @@ export default class Carousel extends Component {
     }, interval)
   }
 
+  /**
+   * cancel autoplay
+   */
   pause() {
     if (this.timeoutId) {
       clearTimeout(this.timeoutId)
@@ -235,7 +247,9 @@ export default class Carousel extends Component {
           Array.from(Array(this._childLength), (v, k) => (
             <button
               key={k}
-              onClick={() => this.goTo(-k)}
+              onClick={() => {
+                this.goTo(-k)
+              }}
               type="button"
               className={k === -index ? activeDotCls : dotCls}
             />
