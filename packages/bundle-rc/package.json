@@ -1,17 +1,17 @@
 {
   "name": "bundle-rc",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "index.js",
   "author": "dgeibi",
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "fs-extra": "^5.0.0",
+    "mri": "^1.1.0",
+    "no-op": "^1.0.3",
     "rollup": "^0.55.3",
     "rollup-plugin-babel": "4.0.0-beta.1",
-    "rollup-plugin-postcss": "^1.2.8",
-    "fs-extra": "^5.0.0",
-    "no-op": "^1.0.3",
-    "mri": "^1.1.0"
+    "rollup-plugin-postcss": "^1.2.8"
   },
   "bin": {
     "bundle-rc": "./cli.js"

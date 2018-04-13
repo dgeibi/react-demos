@@ -1,6 +1,6 @@
 {
   "name": "react-timer-group",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "description": "Manage a group timer",
   "scripts": {
@@ -8,11 +8,12 @@
     "watch": "bundle-rc -w",
     "test": "jest"
   },
-  "repository":
-    "https://github.com/dgeibi/react-demos/tree/master/packages/react-timer-group",
+  "repository": "https://github.com/dgeibi/react-demos/tree/master/packages/react-timer-group",
   "main": "dist/index.cjs.js",
   "module": "dist/index.m.js",
-  "files": ["dist/"],
+  "files": [
+    "dist/"
+  ],
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.44",
     "babel-core": "^7.0.0-bridge.0",
@@ -24,6 +25,8 @@
     "performance-now": "^2.1.0"
   },
   "jest": {
-    "setupFiles": ["./jest.setup.js"]
+    "setupFiles": [
+      "./jest.setup.js"
+    ]
   }
 }

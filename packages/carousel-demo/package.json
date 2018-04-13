@@ -1,6 +1,6 @@
 {
   "name": "carousel-demo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "dev": "poig",
@@ -9,7 +9,7 @@
   "author": "dgeibi",
   "license": "MIT",
   "dependencies": {
-    "@dgeibi/carousel": "^1.0.0",
+    "@dgeibi/carousel": "^1.0.1",
     "bezier-easing": "^2.0.3"
   }
 }

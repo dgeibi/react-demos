@@ -1,6 +1,6 @@
 {
   "name": "react-timer-group-demo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "dev": "poig",
@@ -9,6 +9,6 @@
   "author": "dgeibi",
   "license": "MIT",
   "dependencies": {
-    "react-timer-group": "^1.0.0"
+    "react-timer-group": "^1.0.2"
   }
 }

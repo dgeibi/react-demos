@@ -1,6 +1,6 @@
 {
   "name": "autocomplete-demo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "dev": "poig",
@@ -9,6 +9,6 @@
   "author": "dgeibi",
   "license": "MIT",
   "dependencies": {
-    "@dgeibi/autocomplete": "^1.0.0"
+    "@dgeibi/autocomplete": "^1.0.1"
   }
 }

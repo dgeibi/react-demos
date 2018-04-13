@@ -1,6 +1,6 @@
 {
   "name": "redux-timer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "stop watch written with redux",
   "private": true,
   "devDependencies": {
@@ -14,8 +14,8 @@
   "license": "MIT",
   "dependencies": {
     "emotion": "^8.0.0",
-    "react-emotion": "^8.0.0",
     "performance-now": "^2.1.0",
+    "react-emotion": "^8.0.0",
     "react-redux": "^5.0.5",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"
