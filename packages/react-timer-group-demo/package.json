@@ -1,5 +1,5 @@
 {
-  "name": "react-timer-demo",
+  "name": "react-timer-group-demo",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -9,6 +9,6 @@
   "author": "dgeibi",
   "license": "MIT",
   "dependencies": {
-    "@dgeibi/react-timer": "^1.0.0"
+    "react-timer-group": "^1.0.0"
   }
 }

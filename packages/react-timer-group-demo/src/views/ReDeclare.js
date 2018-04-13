@@ -1,5 +1,5 @@
 import React from 'react'
-import { Timer, TimerProvider } from '@dgeibi/react-timer'
+import { Timer, TimerProvider } from 'react-timer-group'
 import renderTimer from '../renderTimer'
 
 export default function ReDeclare() {

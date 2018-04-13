@@ -2,6 +2,7 @@
   "name": "redux-timer",
   "version": "1.0.0",
   "description": "stop watch written with redux",
+  "private": true,
   "devDependencies": {
     "babel-plugin-emotion": "^8.0.0"
   },

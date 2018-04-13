@@ -1,5 +1,5 @@
 import React from 'react'
-import { Timer, TimerProvider } from '@dgeibi/react-timer'
+import { Timer, TimerProvider } from 'react-timer-group'
 import linkState from '../linkState'
 import renderTimer from '../renderTimer'
 

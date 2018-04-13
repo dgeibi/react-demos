@@ -1,4 +1,6 @@
-export default function preset() {
+const value = (v, d) => (v != null ? v : d)
+
+export default function preset(context, opts = {}) {
   const env = process.env.BABEL_ENV || process.env.NODE_ENV
   const isEnvProduction = env === 'production'
   const isEnvTest = env === 'test'
@@ -7,20 +9,22 @@ export default function preset() {
     presets: [
       [
         require('@babel/preset-env').default,
-        isEnvTest
-          ? {
-              shippedProposals: true,
-              targets: {
-                node: 'current',
-              },
-            }
-          : {
-              modules: false,
-              shippedProposals: true,
-              targets: {
-                ie: 10,
-              },
-            },
+        {
+          debug: opts.debug,
+          useBuiltIns: opts.useBuiltIns,
+          modules: value(opts.modules, isEnvTest ? 'commonjs' : false),
+          shippedProposals: value(opts.shippedProposals, true),
+          targets: value(
+            opts.targets,
+            isEnvTest
+              ? {
+                  node: 'current',
+                }
+              : {
+                  ie: 10,
+                }
+          ),
+        },
       ],
       require('@babel/preset-react').default,
     ],
@@ -32,14 +36,7 @@ export default function preset() {
           loose: true,
         },
       ],
-      [
-        require('@babel/plugin-transform-runtime').default,
-        {
-          helpers: true,
-          polyfill: false,
-          regenerator: true,
-        },
-      ],
+      require('@babel/plugin-transform-runtime').default,
       isEnvProduction && [
         require('babel-plugin-transform-react-remove-prop-types').default,
         {
