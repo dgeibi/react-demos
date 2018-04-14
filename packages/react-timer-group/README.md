@@ -1,6 +1,6 @@
 # react-timer-group
 
-Manage a group timer
+Manage a group of timer
 
 ## Example
 
