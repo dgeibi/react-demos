@@ -1,5 +1,6 @@
 module.exports = () => poi => {
-  poi.extendWebpack((config, { command }) => {
+  const { command } = poi
+  poi.chainWebpack(config => {
     config.merge({
       optimization: {
         splitChunks: {

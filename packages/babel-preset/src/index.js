@@ -8,7 +8,7 @@ export default function preset(context, opts = {}) {
   return {
     presets: [
       [
-        require('@babel/preset-env').default,
+        require.resolve('@babel/preset-env'),
         {
           debug: opts.debug,
           useBuiltIns: opts.useBuiltIns,
@@ -26,19 +26,19 @@ export default function preset(context, opts = {}) {
           ),
         },
       ],
-      require('@babel/preset-react').default,
+      require.resolve('@babel/preset-react'),
     ],
     plugins: [
-      require('babel-plugin-transform-decorators-legacy').default,
+      [require.resolve('@babel/plugin-proposal-decorators'), { legacy: true }],
       [
-        require('@babel/plugin-proposal-class-properties').default,
+        require.resolve('@babel/plugin-proposal-class-properties'),
         {
           loose: true,
         },
       ],
-      require('@babel/plugin-transform-runtime').default,
+      require.resolve('@babel/plugin-transform-runtime'),
       isEnvProduction && [
-        require('babel-plugin-transform-react-remove-prop-types').default,
+        require.resolve('babel-plugin-transform-react-remove-prop-types'),
         {
           removeImport: true,
         },
