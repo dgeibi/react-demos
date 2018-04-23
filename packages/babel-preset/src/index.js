@@ -29,6 +29,7 @@ export default function preset(context, opts = {}) {
       require.resolve('@babel/preset-react'),
     ],
     plugins: [
+      require.resolve('@babel/plugin-syntax-dynamic-import'),
       [require.resolve('@babel/plugin-proposal-decorators'), { legacy: true }],
       [
         require.resolve('@babel/plugin-proposal-class-properties'),
