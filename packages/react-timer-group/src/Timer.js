@@ -13,6 +13,7 @@ class Timer extends Component {
     this.state = {
       name,
       timeout: props.timeout,
+      prevProps: this.props,
     }
   }
 
@@ -35,12 +36,15 @@ class Timer extends Component {
     }
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.name !== nextProps.name) {
-      console.error(Error('<Timer>: Name changing is not supported!'))
-    }
-    if (prevState.timeout !== nextProps.timeout) {
-      return { timeout: nextProps.timeout }
+  static getDerivedStateFromProps(props, state) {
+    if (props !== state.prevProps) {
+      if (state.name !== props.name) {
+        console.error(Error('<Timer>: Name changing is not supported!'))
+      }
+      return {
+        prevProps: props,
+        timeout: state.timeout !== props.timeout ? props.timeout : state.timeout,
+      }
     }
     return null
   }
