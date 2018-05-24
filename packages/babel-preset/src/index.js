@@ -12,6 +12,7 @@ export default function preset(context, opts = {}) {
         {
           debug: opts.debug,
           useBuiltIns: opts.useBuiltIns,
+          loose: opts.loose,
           modules: value(opts.modules, isEnvTest ? 'commonjs' : false),
           shippedProposals: value(opts.shippedProposals, true),
           targets: value(
