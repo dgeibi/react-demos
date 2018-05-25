@@ -11,7 +11,7 @@
   "main": "dist/index.cjs.js",
   "module": "dist/index.m.js",
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.44",
+    "@babel/runtime": "7.0.0-beta.49",
     "classnames": "^2.2.5"
   }
 }

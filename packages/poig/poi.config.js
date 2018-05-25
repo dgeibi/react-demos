@@ -1,8 +1,7 @@
 const scripts = require('../../scripts.json')
-const path = require('path')
 
 module.exports = () => ({
-  entry: [path.join(__dirname, 'polyfill.js'), `./src/index.js`],
+  entry: [`./src/index.js`],
   html: {
     template: require.resolve('./template.html'),
     scripts,
