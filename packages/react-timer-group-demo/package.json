@@ -4,11 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "poig",
-    "build": "poig build"
+    "build": "poig build",
+    "build:debug": "poig build --no-minimize"
   },
   "author": "dgeibi",
   "license": "MIT",
   "dependencies": {
     "react-timer-group": "^1.0.2"
+  },
+  "devDependencies": {
+    "poig": "*"
   }
 }

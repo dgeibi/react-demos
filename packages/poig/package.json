@@ -1,10 +1,14 @@
 {
   "name": "poig",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "index.js",
   "license": "MIT",
   "private": true,
   "bin": {
-    "poig": "./cli.js"
+    "poig": "cli.js"
+  },
+  "dependencies": {
+    "poi": "^10.1.10",
+    "setprototypeof": "^1.1.0"
   }
 }

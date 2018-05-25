@@ -8,7 +8,7 @@ const path = require('path')
 spawn(
   'node',
   [
-    require.resolve('poi/bin/cli.js'),
+    require.resolve('poi/bin/main.js'),
     ...args,
     '--config',
     path.join(__dirname, './poi.config.js'),

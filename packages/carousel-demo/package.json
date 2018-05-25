@@ -4,12 +4,16 @@
   "private": true,
   "scripts": {
     "dev": "poig",
-    "build": "poig build"
+    "build": "poig build",
+    "build:debug": "poig build --no-minimize"
   },
   "author": "dgeibi",
   "license": "MIT",
   "dependencies": {
     "@dgeibi/carousel": "^1.0.1",
     "bezier-easing": "^2.0.3"
+  },
+  "devDependencies": {
+    "poig": "*"
   }
 }
